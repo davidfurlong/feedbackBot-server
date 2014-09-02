@@ -162,20 +162,26 @@ function toGithub(feedback_item){
     var repo = url.substring(pos+1);
 
     github.issues.create({
+            // headers: {'User-Agent':'davidfurlong'},
+            // user: username,
+            // repo: repo,
+            // title: feedback_item.title,
+            // body: feedback_item.body,
+            // labels: feedback_item.labels
             headers: {'User-Agent':'davidfurlong'},
             user: username,
             repo: repo,
-            title: feedback_item.title,
-            body: feedback_item.body,
-            labels: feedback_item.labels
+            title: 'testin',
+            body: '',
+            labels: []
         },
-        responseGH()
+        function(err, res){
+            console.log(JSON.stringify(res));
+        }
     );
 }
 
-function responseGH(){
-    console.log('sent to github github');
-}
+
  
  
 // Bind the server to port 8080.
