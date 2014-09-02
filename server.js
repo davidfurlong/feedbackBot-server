@@ -116,6 +116,14 @@ var server = http.createServer(
                     var pos = url.indexOf('/');
                     var username = url.substring(0, pos);
                     var repo = url.substring(pos+1);
+                    github.issues.createLabel({
+                            user: username,
+                            repo: repo,
+                            name: 'feedback',
+                            color: '5E2605'
+                        }, function(err){
+                        console.log(err);
+                    });
                     github.issues.create({
                             // headers: {'User-Agent':'davidfurlong'},
                             // user: username,
