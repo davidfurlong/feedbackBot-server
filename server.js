@@ -113,15 +113,18 @@ var server = http.createServer(
                 
                 if(requestBody != ""){
                     var d = requestBody;
-                    
+                    console.log(d);
+                    console.log(d.url);
+                    var f = JSON.parse(requestBody);
+                    console.log(f);
+                    console.log(f.url);
                     var feedback_item = {
                         url: d.url,
                         title: d.title,
                         labels: d.labels,
                         body: d.body
                     };
-                    console.log(feedback_item.url);
-                    console.log(feedback_item.title);
+                    
                     if(feedback_item.url != undefined){
                         toGithub(feedback_item);
                     }
