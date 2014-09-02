@@ -19,7 +19,7 @@ var github = new GitHubApi({
 
 github.authenticate({
     type: "oauth",
-    token: ""
+    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
 });
 
 app.configure(function() {

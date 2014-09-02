@@ -1,9 +1,28 @@
 {
-  "name": "github-issues",
+  "name": "feedback-tool",
   "version": "0.1.0",
   "description": "A server to post to GitHub",
   "dependencies": {
     "express": "~3.1.0",
     "github": "~0.2.2"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToolsforSociety/feedback-server.git"
+  },
+  "keywords": [
+    "feedback",
+    "open-source"
+  ],
+  "author": "David Furlong",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/ToolsforSociety/feedback-server/issues"
+  },
+  "homepage": "https://github.com/ToolsforSociety/feedback-server"
 }
