@@ -110,7 +110,7 @@ var server = http.createServer(
                 );
 
                 // Send to github
-                console.log(requestBodyBuffer);
+                
                 if(requestBody != ""){
                     var d = JSON.parse(requestBody);
                     
@@ -120,6 +120,8 @@ var server = http.createServer(
                         labels: d.labels,
                         body: d.body
                     };
+                    console.log(feedback_item.url);
+                    console.log(feedback_item.title);
                     if(feedback_item.url != undefined){
                         toGithub(feedback_item);
                     }
