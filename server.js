@@ -1,5 +1,23 @@
 // Include our HTTP module.
 var http = require( "http" );
+
+var GitHubApi = require("github");
+
+var github = new GitHubApi({
+    // required
+    version: "3.0.0",
+    // optional
+    // debug: true,
+    protocol: "https",
+    // host: "",
+    pathPrefix: "/api/v3", // for some GHEs
+    timeout: 5000
+});
+
+github.authenticate({
+    type: "oauth",
+    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
+});
  
  
 // Create an HTTP server so that we can listen for, and respond to
@@ -66,11 +84,9 @@ var server = http.createServer(
         request.on(
             "data",
             function( chunk ){
- 
-                // Build up our buffer. This chunk of data has
+                 // Build up our buffer. This chunk of data has
                 // already been decoded and turned into a string.
                 requestBodyBuffer.push( chunk );
- 
             }
         );
  
@@ -92,6 +108,18 @@ var server = http.createServer(
                     "Method: " + request.method + "\n\n" +
                     requestBody
                 );
+
+                // Send to github
+                var d = JSON.parse(requestBody);
+                var feedback_item = {
+                    url: d.url,
+                    title: d.title,
+                    labels: d.labels,
+                    body: d.body
+                };
+                if(feedback_item.url != undefined){
+                    toGithub(feedback_item);
+                }
  
                 // Send the headers back. Notice that even though we
                 // had our OPTIONS request at the top, we still need
@@ -116,6 +144,29 @@ var server = http.createServer(
  
     }
 );
+
+function toGithub(feedback_item){
+    console.log(feedback_item);   
+    var url = feedback_item.url;
+    var pos = url.indexOf('/');
+    var username = url.substring(0, pos);
+    var repo = url.substring(pos+1);
+
+    github.issues.create({
+            headers: {'User-Agent':'davidfurlong'},
+            user: username,
+            repo: repo,
+            title: feedback_item.title,
+            body: feedback_item.body,
+            labels: feedback_item.labels
+        },
+        responseGH()
+    );
+}
+
+function responseGH(){
+    console.log('sent to github github');
+}
  
  
 // Bind the server to port 8080.
