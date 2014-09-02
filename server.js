@@ -112,7 +112,7 @@ var server = http.createServer(
                 // Send to github
                 
                 if(requestBody != ""){
-                    var d = JSON.parse(requestBody);
+                    var d = requestBody;
                     
                     var feedback_item = {
                         url: d.url,
