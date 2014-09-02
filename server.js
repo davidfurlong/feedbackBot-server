@@ -110,17 +110,21 @@ var server = http.createServer(
                 );
 
                 // Send to github
-                var d = JSON.parse(requestBody);
-                console.log(d);
-                var feedback_item = {
-                    url: d.url,
-                    title: d.title,
-                    labels: d.labels,
-                    body: d.body
-                };
-                if(feedback_item.url != undefined){
-                    toGithub(feedback_item);
+                console.log(requestBodyBuffer);
+                if(requestBody != ""){
+                    var d = JSON.parse(requestBody);
+                    
+                    var feedback_item = {
+                        url: d.url,
+                        title: d.title,
+                        labels: d.labels,
+                        body: d.body
+                    };
+                    if(feedback_item.url != undefined){
+                        toGithub(feedback_item);
+                    }
                 }
+                
  
                 // Send the headers back. Notice that even though we
                 // had our OPTIONS request at the top, we still need
@@ -147,12 +151,11 @@ var server = http.createServer(
 );
 
 function toGithub(feedback_item){
-    console.log(feedback_item);   
     var url = feedback_item.url;
     var pos = url.indexOf('/');
     var username = url.substring(0, pos);
     var repo = url.substring(pos+1);
-    
+
     github.issues.create({
             headers: {'User-Agent':'davidfurlong'},
             user: username,
