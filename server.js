@@ -110,6 +110,32 @@ var server = http.createServer(
                 );
 
                 // Send to github
+
+                function toGithub(feedback_item){
+                    var url = feedback_item.url;
+                    var pos = url.indexOf('/');
+                    var username = url.substring(0, pos);
+                    var repo = url.substring(pos+1);
+
+                    github.issues.create({
+                            // headers: {'User-Agent':'davidfurlong'},
+                            // user: username,
+                            // repo: repo,
+                            // title: feedback_item.title,
+                            // body: feedback_item.body,
+                            // labels: feedback_item.labels
+                            headers: {'User-Agent':'davidfurlong'},
+                            user: username,
+                            repo: repo,
+                            title: 'testin',
+                            body: '',
+                            labels: []
+                        },
+                        function(err, res){
+                            console.log(err);
+                        }
+                    );
+                }
                 
                 if(requestBody != "" && requestBody != undefined){
                     var f = JSON.parse(requestBody);
@@ -152,31 +178,7 @@ var server = http.createServer(
     }
 );
 
-function toGithub(feedback_item){
-    var url = feedback_item.url;
-    var pos = url.indexOf('/');
-    var username = url.substring(0, pos);
-    var repo = url.substring(pos+1);
 
-    github.issues.create({
-            // headers: {'User-Agent':'davidfurlong'},
-            // user: username,
-            // repo: repo,
-            // title: feedback_item.title,
-            // body: feedback_item.body,
-            // labels: feedback_item.labels
-            headers: {'User-Agent':'davidfurlong'},
-            user: username,
-            repo: repo,
-            title: 'testin',
-            body: '',
-            labels: []
-        },
-        function(err, res){
-            console.log(JSON.stringify(res));
-        }
-    );
-}
 
 
  
