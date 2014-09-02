@@ -112,17 +112,14 @@ var server = http.createServer(
                 // Send to github
                 
                 if(requestBody != "" && requestBody != undefined){
-                    var d = requestBody;
-                    console.log(d);
-                    console.log(d.url);
                     var f = JSON.parse(requestBody);
                     console.log(f);
                     console.log(f.url);
                     var feedback_item = {
-                        url: d.url,
-                        title: d.title,
-                        labels: d.labels,
-                        body: d.body
+                        url: f.url,
+                        title: f.title,
+                        labels: f.labels,
+                        body: f.body
                     };
                     
                     if(feedback_item.url != undefined){
