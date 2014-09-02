@@ -111,6 +111,7 @@ var server = http.createServer(
 
                 // Send to github
                 var d = JSON.parse(requestBody);
+                console.log(d);
                 var feedback_item = {
                     url: d.url,
                     title: d.title,
@@ -151,7 +152,7 @@ function toGithub(feedback_item){
     var pos = url.indexOf('/');
     var username = url.substring(0, pos);
     var repo = url.substring(pos+1);
-
+    
     github.issues.create({
             headers: {'User-Agent':'davidfurlong'},
             user: username,
