@@ -3,8 +3,20 @@ var http = require( "http" );
 
 var GitHubApi = require("github");
 
+var github = new GitHubApi({
+    // required
+    version: "3.0.0",
+    // optional
+    debug: true,
+    protocol: "https",
+    // host: "http://frozen-thicket-5722.herokuapp.com/",
+    timeout: 5000
+});
 
- 
+github.authenticate({
+    type: "oauth",
+    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
+});
  
 // Create an HTTP server so that we can listen for, and respond to
 // incoming HTTP requests. This requires a callback that can be used
@@ -97,28 +109,13 @@ var server = http.createServer(
 
                 // Send to github
 
-                var github = new GitHubApi({
-                    // required
-                    version: "3.0.0",
-                    // optional
-                    // debug: true,
-                    protocol: "https",
-                    host: "http://frozen-thicket-5722.herokuapp.com/",
-                    pathPrefix: "/api/v3", // for some GHEs
-                    timeout: 5000
-                });
-
-                github.authenticate({
-                    type: "oauth",
-                    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
-                });
 
                 function toGithub(feedback_item){
+
                     var url = feedback_item.url;
                     var pos = url.indexOf('/');
                     var username = url.substring(0, pos);
                     var repo = url.substring(pos+1);
-
                     github.issues.create({
                             // headers: {'User-Agent':'davidfurlong'},
                             // user: username,
@@ -129,9 +126,9 @@ var server = http.createServer(
                             headers: {'User-Agent':'davidfurlong'},
                             user: username,
                             repo: repo,
-                            title: 'testin',
-                            body: '',
-                            labels: []
+                            title: feedback_item.title,
+                            body: feedback_item.body,
+                            labels: feedback_item.labels
                         },
                         function(err, res){
                             console.log(err);
@@ -141,8 +138,6 @@ var server = http.createServer(
                 
                 if(requestBody != "" && requestBody != undefined){
                     var f = JSON.parse(requestBody);
-                    console.log(f);
-                    console.log(f.url);
                     var feedback_item = {
                         url: f.url,
                         title: f.title,
@@ -179,10 +174,6 @@ var server = http.createServer(
  
     }
 );
-
-
-
-
  
  
 // Bind the server to port 8080.
