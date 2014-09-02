@@ -10,7 +10,7 @@ var github = new GitHubApi({
     // required
     version: "3.0.0",
     // optional
-    debug: true,
+    // debug: true,
     protocol: "https",
     // host: "",
     pathPrefix: "/api/v3", // for some GHEs
@@ -27,9 +27,9 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
 
-    if(DEBUG) {
-      app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    }
+    // if(DEBUG) {
+    //   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    // }
 });
 
 // app.get('/api/books', function(request, response) {
@@ -49,23 +49,24 @@ app.configure(function() {
 //     response.send(books);
 // });
 //Insert a new book
-app.post('/', function( request, response ) {
+app.get('/', function( request, response ) {
     var feedback_item = {
         url: request.body.url,
         title: request.body.title,
         labels: request.body.labels,
         body: request.body.body
     };
-    
-    toGithub(feedback_item);
-    response.send('Screw em');
+    if(feedback_item.url != undefined){
+        toGithub(feedback_item);
+        response.send('Data passed');
+    }
+    response.send('No data being passed');
 });
 
 function toGithub(feedback_item){
-
-    
+    console.log(feedback_item);   
     var url = feedback_item.url;
-    var pos = userrepo.indexOf('/');
+    var pos = url.indexOf('/');
     var username = url.substring(0, pos);
     var repo = url.substring(pos+1);
 
