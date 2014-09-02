@@ -3,21 +3,7 @@ var http = require( "http" );
 
 var GitHubApi = require("github");
 
-var github = new GitHubApi({
-    // required
-    version: "3.0.0",
-    // optional
-    // debug: true,
-    protocol: "https",
-    // host: "",
-    pathPrefix: "/api/v3", // for some GHEs
-    timeout: 5000
-});
 
-github.authenticate({
-    type: "oauth",
-    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
-});
  
  
 // Create an HTTP server so that we can listen for, and respond to
@@ -110,6 +96,22 @@ var server = http.createServer(
                 );
 
                 // Send to github
+
+                var github = new GitHubApi({
+                    // required
+                    version: "3.0.0",
+                    // optional
+                    // debug: true,
+                    protocol: "https",
+                    host: "http://frozen-thicket-5722.herokuapp.com/",
+                    pathPrefix: "/api/v3", // for some GHEs
+                    timeout: 5000
+                });
+
+                github.authenticate({
+                    type: "oauth",
+                    token: "c403e9ea6ffc60730e761a95d67194f5eb4a271a"
+                });
 
                 function toGithub(feedback_item){
                     var url = feedback_item.url;
