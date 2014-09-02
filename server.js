@@ -3,6 +3,25 @@ var application_root = __dirname,
     DEBUG = true;
 
 var app = express();
+
+var GitHubApi = require("github");
+
+var github = new GitHubApi({
+    // required
+    version: "3.0.0",
+    // optional
+    debug: true,
+    protocol: "https",
+    // host: "",
+    pathPrefix: "/api/v3", // for some GHEs
+    timeout: 5000
+});
+
+github.authenticate({
+    type: "oauth",
+    token: ""
+});
+
 app.configure(function() {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
@@ -44,22 +63,7 @@ app.post('/', function( request, response ) {
 
 function toGithub(feedback_item){
 
-    var GitHubApi = require("github");
-
-    var github = new GitHubApi({
-        // required
-        version: "3.0.0",
-        // optional
-        debug: true,
-        protocol: "https",
-        // host: "",
-        pathPrefix: "/api/v3", // for some GHEs
-        timeout: 5000
-    });
-    github.authenticate({
-        type: "oauth",
-        token: ""
-    });
+    
     var url = feedback_item.url;
     var pos = userrepo.indexOf('/');
     var username = url.substring(0, pos);
