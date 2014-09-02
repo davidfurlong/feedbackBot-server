@@ -119,5 +119,5 @@ var server = http.createServer(
  
  
 // Bind the server to port 8080.
-server.listen( 3000 );
+server.listen( process.env.PORT || 3000 );
  
