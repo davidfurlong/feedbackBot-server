@@ -111,7 +111,7 @@ var server = http.createServer(
 
                 // Send to github
                 
-                if(requestBody != ""){
+                if(requestBody != "" && requestBody != undefined){
                     var d = requestBody;
                     console.log(d);
                     console.log(d.url);
