@@ -135,7 +135,7 @@ var server = http.createServer(
                             user: username,
                             repo: repo,
                             title: feedback_item.title,
-                            body: (feedback_item.body).toString(),
+                            body: feedback_item.body,
                             labels: feedback_item.labels
                         },
                         function(err, res){
